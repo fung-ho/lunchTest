@@ -12,11 +12,11 @@
 <p th:text="${message}" autoUpdate="true" ></p>
 
 <form method="post" action="/lunch/start">
-    <button type="submit">Start Session</button>
+    <button style="margin:5px;" type="submit">Start Session</button>
 </form>
 
 <form method="post" action="/lunch/join">
-    <button type="submit">Join Session</button>
+    <button style="margin:5px;" type="submit">Join Session</button>
 </form>
 
 <form method="post" action="/lunch/submit" th:object="${restaurant}">
@@ -27,14 +27,19 @@
 </form>
 
 <form method="post" action="/lunch/end">
-    <button type="submit">End Session</button>
+    <button style="margin:5px;" type="submit">End Session</button>
 </form>
 
+<td th:switch="${#lists.size(listShops)}">
+    <span th:case="'0'" style="margin:5px;" > </span>
+    <div th:case="*">
+        <span>Restaurants submitted:</span>
 
-<h2 th:if="${session != null} && ${listShops}">Restaurants submitted:</h2>
-<ul>
-    <li th:each="rt : ${listShops}" th:text="${rt.name}"></li>
-</ul>
+        <ul>
+            <li th:each="rt : ${listShops}" th:text="${rt.name}"></li>
+        </ul>
+    </div>
+</td>
 
 </body>
 </html>
