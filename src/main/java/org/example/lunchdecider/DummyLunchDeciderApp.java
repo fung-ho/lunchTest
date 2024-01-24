@@ -5,7 +5,7 @@ import org.example.TeamSession;
 import java.util.Scanner;
 import java.util.List;
 
-public class LunchDeciderApp {
+public class DummyLunchDeciderApp {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         TeamSession session = new TeamSession();

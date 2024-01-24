@@ -29,7 +29,7 @@ public class LunchController {
 
     @GetMapping
     public String index(Model model) {
-        System.out.println("going thru index...");
+
         if (currentSession == null) {
             currentSession = new Session();
         }
