@@ -1,0 +1,40 @@
+<!-- src/main/resources/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lunch Decider App</title>
+</head>
+<body>
+
+<h1>Welcome to the Lunch Decider App!</h1>
+
+<p th:text="${message}" autoUpdate="true" ></p>
+
+<form method="post" action="/lunch/start">
+    <button type="submit">Start Session</button>
+</form>
+
+<form method="post" action="/lunch/join">
+    <button type="submit">Join Session</button>
+</form>
+
+<form method="post" action="/lunch/submit" th:object="${restaurant}">
+    <label for="rRestaurant">Submit a restaurant:</label>
+    <input type="text" id="rRestaurant" name="rname" th:field="*{name}" required>
+    <p showDetail="true" autoUpdate="true"/>
+    <button type="submit">Submit Restaurant</button>
+</form>
+
+<form method="post" action="/lunch/end">
+    <button type="submit">End Session</button>
+</form>
+
+
+<h2 th:if="${session != null} && ${listShops}">Restaurants submitted:</h2>
+<ul>
+    <li th:each="rt : ${listShops}" th:text="${rt.name}"></li>
+</ul>
+
+</body>
+</html>
