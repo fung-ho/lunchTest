@@ -34,6 +34,7 @@ public class LunchController {
             currentSession = new Session();
         }
 
+        model.addAttribute("code", "");
         model.addAttribute("session", currentSession);
         model.addAttribute("restaurant", new Restaurant());
         model.addAttribute("listShops", restaurantService.getRestaurantsBySessionCode(currentSession.getSessionCode()));
@@ -50,8 +51,9 @@ public class LunchController {
             currentSession = new Session();
             currentSession.setSessionActive(true);
             redirectAttributes.addFlashAttribute("message",
-                    "Session started. Invite others to join.");
+                    "Session started. Invite others to join. Please provide this code to end session: " + currentSession.getSessionCode());
         }
+
         return "redirect:/lunch";
     }
 
@@ -90,8 +92,18 @@ public class LunchController {
     }
 
     @PostMapping("/end")
-    public String endSession(RedirectAttributes redirectAttributes) {
-        if (currentSession != null && currentSession.isSessionActive()) {
+    public String endSession(@ModelAttribute("code") String scode, RedirectAttributes redirectAttributes) {
+        if (currentSession == null || !currentSession.isSessionActive()) {
+            redirectAttributes.addFlashAttribute("message",
+                    "No active session to end.");
+        }
+        else if (scode.isEmpty() ||
+                (currentSession != null && !scode.equalsIgnoreCase(currentSession.getSessionCode()))) {
+            redirectAttributes.addFlashAttribute("message",
+                    "Please provide valid code to end the session.");
+
+        }
+        else if (currentSession != null && currentSession.isSessionActive()) {
             List<Restaurant> restaurants = currentSession.getRestaurants();
 
             if (!restaurants.isEmpty()) {
@@ -106,9 +118,6 @@ public class LunchController {
 
             currentSession.setSessionEnded(true);
             currentSession = null;
-        } else {
-            redirectAttributes.addFlashAttribute("message",
-                    "No active session to end.");
         }
 
         return "redirect:/lunch";

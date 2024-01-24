@@ -27,6 +27,7 @@
 </form>
 
 <form method="post" action="/lunch/end">
+    <input type="text" id="code" name="code" th:value="*{code}" required>
     <button style="margin:5px;" type="submit">End Session</button>
 </form>
 
